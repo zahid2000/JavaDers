@@ -1,0 +1,24 @@
+package interfaces;
+
+public class CustomerManager {
+	private Logger logger;
+	private Logger[] loggers;
+	private Utils utils=new Utils();
+	public CustomerManager(Logger logger) {
+		this.logger=logger;
+	}
+	
+	public CustomerManager(Logger[] loggers) {
+		this.loggers=loggers;
+	}
+	
+	public void add( Customer customer) {
+		System.out.println("Musteri eklendi : "+customer.getFirstName() );
+	utils.runLoggers(loggers, customer.getFirstName());
+		
+	};
+	public void delete(Customer customer) {
+		System.out.println("Musteri silindi : "+customer.getFirstName());
+		utils.runLoggers(loggers, customer.getFirstName());
+	};
+}
