@@ -10,9 +10,11 @@ import java.util.Date;
 import Adapters.MernisServiceAdapter;
 import Concrete.GameManager;
 import Concrete.GamerManager;
+import Concrete.SaleManager;
 import Entity.Concrete.Campany;
 import Entity.Concrete.Game;
 import Entity.Concrete.Gamer;
+import Entity.Concrete.Sale;
 
 public class Main {
 
@@ -23,11 +25,12 @@ public class Main {
 		GameManager gameManager=new GameManager();
 		Game game=new Game(1, "CSGO", 23.3);
 		
-		
+		SaleManager saleManager=new SaleManager();
+		Sale sale=new Sale(1);
 		Campany campany=new Campany(1, "Ramazan", new Date(2021,1,15), new Date(2021,8,30));
 
 		gamerManager.add(gamer);
-		gameManager.buyWithCompany(game, gamer, campany);
+	saleManager.saleWithCampany(sale, game, gamer, campany);
 	}
 
 }
