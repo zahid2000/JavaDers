@@ -6,7 +6,9 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
+		<item key="selection" value="@Column(name = &quot;category_id&quot;)"/>
 		<list key="findhistory">
+			<item value="@Column(name = &quot;category_id&quot;)"/>
 		</list>
 		<list key="replacehistory">
 		</list>
