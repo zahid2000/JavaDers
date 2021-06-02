@@ -1,6 +1,5 @@
 package kodlamaio.northwind.entities.dtos;
 
-import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
