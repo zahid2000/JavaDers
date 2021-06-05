@@ -13,6 +13,7 @@ import javax.persistence.InheritanceType;
 
 import com.sun.istack.NotNull;
 
+import kodlamaio.hrms.entities.abstracts.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements Person {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")

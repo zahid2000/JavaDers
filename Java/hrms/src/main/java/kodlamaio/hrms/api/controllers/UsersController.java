@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.entity.concretes.User;
 import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 @RestController
 @RequestMapping("api/users/")
 public class UsersController {
@@ -25,6 +26,10 @@ public class UsersController {
 	@GetMapping("getAll")
 	public DataResult<List<User>> getAll(){
 		return this.userService.getAll();
+	}
+	@GetMapping("getByEmail")
+	public DataResult<User> getByEmail(String email) {
+		return this.userService.getByEmail(email);
 	}
 
 }

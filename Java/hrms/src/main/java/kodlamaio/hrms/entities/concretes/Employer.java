@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import com.sun.istack.NotNull;
 
 import kodlamaio.hrms.core.entity.concretes.User;
+import kodlamaio.hrms.entities.abstracts.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "employers")
 @PrimaryKeyJoinColumn(name = "id")
 @Entity
-public class Employer extends User {
+public class Employer extends User implements Person {
 
 	@Column(name = "company_name")
 	@NotBlank

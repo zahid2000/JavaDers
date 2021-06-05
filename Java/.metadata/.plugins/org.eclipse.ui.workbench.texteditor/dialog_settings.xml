@@ -8,6 +8,7 @@
 		<item key="isRegEx" value="false"/>
 		<item key="selection" value="@Column(name = &quot;category_id&quot;)"/>
 		<list key="findhistory">
+			<item value="JsonIgnore"/>
 			<item value="@Column(name = &quot;category_id&quot;)"/>
 		</list>
 		<list key="replacehistory">

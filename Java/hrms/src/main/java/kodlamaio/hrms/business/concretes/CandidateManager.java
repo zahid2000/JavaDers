@@ -6,7 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.CandidateService;
+import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.business.constants.messages.Messages;
+import kodlamaio.hrms.business.validationRules.abstracts.CandidateValidatorService;
+import kodlamaio.hrms.core.business.BusinessEngine;
+import kodlamaio.hrms.core.utilities.adapters.abstracts.CheckRealPersonService;
+import kodlamaio.hrms.core.utilities.adapters.models.MernisPerson;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -19,11 +24,18 @@ import kodlamaio.hrms.entities.concretes.Candidate;
 public class CandidateManager implements CandidateService {
 
 	private CandidateDao candidateDao;
+	private UserService userService;
+	private CheckRealPersonService checkRealPersonService;
+	private CandidateValidatorService candidateValidatorService;
 
 	@Autowired
-	public CandidateManager(CandidateDao candidateDao) {
+	public CandidateManager(CandidateDao candidateDao, UserService userService,
+			CheckRealPersonService checkRealPersonService, CandidateValidatorService candidateValidatorService) {
 		super();
 		this.candidateDao = candidateDao;
+		this.userService = userService;
+		this.checkRealPersonService = checkRealPersonService;
+		this.candidateValidatorService = candidateValidatorService;
 	}
 
 	@Override
@@ -33,12 +45,15 @@ public class CandidateManager implements CandidateService {
 
 	@Override
 	public Result add(Candidate candidate) {
-		if (this.candidateDao.existsByEmail(candidate.getEmail())) {
-			return new ErrorResult(Messages.emailExists);
+		Result result = BusinessEngine.run(isIdentityNumberExist(candidate.getNationalIdentity()),
+				isMernisVerified(candidate), candidateValidatorService.candidateNullCheck(candidate),
+				candidateValidatorService.nationalIdValid(candidate.getNationalIdentity()),
+				checkIfEmailExists(candidate.getEmail()));
+		if (!result.isSuccess()) {
+			return result;
 		}
 		this.candidateDao.save(candidate);
-
-		return new SuccessResult();
+		return new SuccessResult(Messages.candidateAdded);
 	}
 
 	@Override
@@ -54,6 +69,30 @@ public class CandidateManager implements CandidateService {
 	@Override
 	public DataResult<Candidate> getByNationalIdentity(String nationalIdentity) {
 		return new SuccessDataResult<Candidate>(this.candidateDao.findByNationalIdentity(nationalIdentity));
+	}
+
+	private Result isIdentityNumberExist(String identityNumber) {
+		if (candidateDao.existsByNationalIdentity(identityNumber)) {
+			return new ErrorResult(Messages.nationalityIdentityExist);
+		}
+		return new SuccessResult();
+	}
+
+	private Result isMernisVerified(Candidate candidate) {
+		MernisPerson mernisPerson = new MernisPerson(candidate.getFirstName(), candidate.getLastName(),
+				candidate.getNationalIdentity(), candidate.getBirthDate());
+		boolean result = this.checkRealPersonService.validate(mernisPerson);
+		if (result) {
+			return new SuccessResult();
+		}
+		return new ErrorResult(Messages.personInValid);
+	}
+
+	private Result checkIfEmailExists(String email) {
+		if (this.userService.userExists(email)) {
+			return new ErrorResult(Messages.emailExist);
+		}
+		return new SuccessResult();
 	}
 
 }

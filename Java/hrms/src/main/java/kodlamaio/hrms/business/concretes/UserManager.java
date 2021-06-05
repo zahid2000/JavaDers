@@ -28,4 +28,17 @@ public class UserManager implements UserService {
 		return new SuccessDataResult<List<User>>(this.userDao.findAll(),Messages.usersListed);
 	}
 
+	@Override
+	public boolean userExists(String email) {
+		if(this.userDao.existsByEmail(email)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public DataResult<User> getByEmail(String email) {
+		return new SuccessDataResult<User>(this.userDao.findByEmail(email));
+	}
+
 }

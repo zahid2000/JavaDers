@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import kodlamaio.hrms.business.abstracts.JobTitleService;
 import kodlamaio.hrms.business.constants.messages.Messages;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.ErrorDataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
