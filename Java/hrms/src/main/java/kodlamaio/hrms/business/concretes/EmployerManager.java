@@ -9,6 +9,7 @@ import kodlamaio.hrms.business.abstracts.ActivationCodeEmployerService;
 import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.business.constants.messages.Messages;
+import kodlamaio.hrms.business.validationRules.abstracts.EmployerValidatorService;
 import kodlamaio.hrms.core.business.BusinessEngine;
 import kodlamaio.hrms.core.utilities.activations.CodeGenerator;
 import kodlamaio.hrms.core.utilities.results.DataResult;
@@ -29,13 +30,15 @@ public class EmployerManager implements EmployerService {
 	private EmployerDao employerDao;
 	private ActivationCodeEmployerService activationCodeEmployerService;
 	private UserService userService;
+	private EmployerValidatorService employerValidatorService;
 
 	@Autowired
-	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,UserService userService) {
+	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,UserService userService,EmployerValidatorService employerValidatorService) {
 		super();
 		this.employerDao = employerDao;
 		this.activationCodeEmployerService = activationCodeEmployerService;
 		this.userService=userService;
+		this.employerValidatorService=employerValidatorService;
 	}
 
 	@Override
@@ -45,7 +48,8 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result add(Employer employer) {
-		Result result=BusinessEngine.run(checkIfEmailExists(employer.getEmail()));
+		Result result=BusinessEngine.run(employerValidatorService.employerNullCheck(employer),
+                employerValidatorService.isEmailDomainCheck(employer),checkIfEmailExists(employer.getEmail()));
 		if(!result.isSuccess()) {
 			return result;
 		}
