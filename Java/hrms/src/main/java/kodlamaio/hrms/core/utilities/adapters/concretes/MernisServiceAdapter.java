@@ -1,12 +1,12 @@
 package kodlamaio.hrms.core.utilities.adapters.concretes;
 
-import java.util.Locale;
+//import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.core.utilities.adapters.abstracts.CheckRealPersonService;
 import kodlamaio.hrms.core.utilities.adapters.models.MernisPerson;
-import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
+//import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
 @Service
 public class MernisServiceAdapter implements CheckRealPersonService{

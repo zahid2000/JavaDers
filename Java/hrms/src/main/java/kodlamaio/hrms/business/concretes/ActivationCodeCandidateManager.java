@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.ActivationCodeCandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
+import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
@@ -44,8 +45,7 @@ public class ActivationCodeCandidateManager implements ActivationCodeCandidateSe
 
 	@Override
 	public Result update(ActivationCodeCandidateDto activationCodeCandidateDto) {
-		ActivationCodeCandidate activationCodeCandidate = new ActivationCodeCandidate();
-		activationCodeCandidate = this.activationCodeCandidateDao
+		ActivationCodeCandidate activationCodeCandidate = this.activationCodeCandidateDao
 				.findByCandidate_Id(activationCodeCandidateDto.getUserId());
 		activationCodeCandidate.setActivationCode(activationCodeCandidateDto.getActivationCode());
 		this.activationCodeCandidateDao.save(activationCodeCandidate);
@@ -54,8 +54,28 @@ public class ActivationCodeCandidateManager implements ActivationCodeCandidateSe
 	}
 
 	@Override
-	public DataResult<ActivationCodeCandidate> getById(int id) {
-		return new SuccessDataResult<ActivationCodeCandidate>(this.activationCodeCandidateDao.findByCandidate_Id(id));
+	public DataResult<ActivationCodeCandidateDto> getByCandidateId(int id) {
+		ActivationCodeCandidateDto activationCodeCandidateDto = new ActivationCodeCandidateDto();
+		activationCodeCandidateDto
+				.setActivationCode(this.activationCodeCandidateDao.findByCandidate_Id(id).getActivationCode());
+		activationCodeCandidateDto.setUserId(this.activationCodeCandidateDao.findByCandidate_Id(id).getId());
+		return new SuccessDataResult<ActivationCodeCandidateDto>(activationCodeCandidateDto);
+	}
+
+	@Override
+	public DataResult<ActivationCodeCandidate> findById(int id) {
+		return new SuccessDataResult<ActivationCodeCandidate>(this.activationCodeCandidateDao.findById(id));
+	}
+
+	@Override
+	public Result verify(String activationCode, int userId) {
+		ActivationCodeCandidate activationCodeCandidate = this.activationCodeCandidateDao.findByCandidate_Id(userId);
+		if (activationCodeCandidate.getActivationCode().equals(activationCodeCandidate)) {
+			activationCodeCandidate.setConfirmed(true);
+			this.activationCodeCandidateDao.save(activationCodeCandidate);
+			return new SuccessResult("Verified");
+		}
+		return new ErrorResult("could not be verified");
 	}
 
 }

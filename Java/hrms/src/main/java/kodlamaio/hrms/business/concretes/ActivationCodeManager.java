@@ -37,6 +37,8 @@ public class ActivationCodeManager implements ActivationCodeService {
 
 	@Override
 	public DataResult<ActivationCode> findById(int id) {
+		
+		
 		return new SuccessDataResult<ActivationCode>(this.activationCodeDao.findById(id));
 	}
 

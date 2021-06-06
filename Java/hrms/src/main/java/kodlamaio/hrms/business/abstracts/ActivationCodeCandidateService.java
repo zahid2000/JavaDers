@@ -12,5 +12,7 @@ public interface ActivationCodeCandidateService {
 	DataResult<List<ActivationCodeCandidate>> getAll();
 	Result add(ActivationCodeCandidateDto activationCodeCandidatDtoe);
 	Result update(ActivationCodeCandidateDto activationCodeCandidateDto);
-	DataResult<ActivationCodeCandidate> getById(int id);
+	DataResult<ActivationCodeCandidateDto> getByCandidateId(int id);
+	DataResult<ActivationCodeCandidate> findById(int id);
+	Result verify(String activationCode,int userId);
 }

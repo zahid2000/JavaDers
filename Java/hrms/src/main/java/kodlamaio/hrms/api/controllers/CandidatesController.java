@@ -52,5 +52,6 @@ public class CandidatesController {
 	DataResult<Candidate> getByNationalIdentity(@RequestParam String nationalIdentity){
 		return this.candidateService.getByNationalIdentity(nationalIdentity);
 	}
+	
 
 }

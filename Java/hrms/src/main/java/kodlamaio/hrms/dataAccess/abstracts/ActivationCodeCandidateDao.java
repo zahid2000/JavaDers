@@ -6,4 +6,5 @@ import kodlamaio.hrms.entities.concretes.ActivationCodeCandidate;
 
 public interface ActivationCodeCandidateDao extends JpaRepository<ActivationCodeCandidate, Integer> {
 	ActivationCodeCandidate findByCandidate_Id(int id);
+	ActivationCodeCandidate findById(int id);
 }

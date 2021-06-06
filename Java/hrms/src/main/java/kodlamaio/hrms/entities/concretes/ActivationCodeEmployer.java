@@ -20,11 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "activation_code_employers")
 @PrimaryKeyJoinColumn(name = "id")
-
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","products"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "products" })
 public class ActivationCodeEmployer extends ActivationCode {
 
-	  @OneToOne()
-	    @JoinColumn(name = "employer_id",referencedColumnName = "id")
-	    private Candidate candidate;
+	@OneToOne()
+	@JoinColumn(name = "employer_id", referencedColumnName = "id")
+	private Employer employer;
 }

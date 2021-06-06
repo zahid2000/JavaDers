@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import com.sun.istack.NotNull;
 
 import kodlamaio.hrms.core.entity.concretes.User;
@@ -37,6 +40,8 @@ public class Employer extends User implements Person {
 	@Column(name = "phone_number")
 	@NotBlank
 	@NotNull
+	//@Pattern(regexp = "^(05)([0-9]{2})\\s?([0-9]{3})\\s?([0-9]{2})\\s?([0-9]{2})$", message = "Telefon formatı hatalı...")
+	@Size(min = 11, max = 11, message = "Telefon numarası 11 haneli olmalı")
 	private String phoneNumber;
 
 	@Column(name = "is_activated")

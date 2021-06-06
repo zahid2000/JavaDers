@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.core.entity.concretes.User;
 import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 @RestController
 @RequestMapping("api/users/")
 public class UsersController {

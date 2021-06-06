@@ -13,9 +13,9 @@ public interface EmployerService {
 	
 	DataResult<Employer> getById(int id);
 
-	DataResult<List<Employer>> findByEmail(String email);
+	DataResult<Employer> findByEmail(String email);
 
-	DataResult<List<Employer>> findByCompanyName(String companyName);
+	DataResult<Employer> findByCompanyName(String companyName);
 	
 
 }

@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kodlamaio.hrms.business.abstracts.ActivationCodeCandidateService;
 import kodlamaio.hrms.business.abstracts.CandidateService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.business.constants.messages.Messages;
 import kodlamaio.hrms.business.validationRules.abstracts.CandidateValidatorService;
 import kodlamaio.hrms.core.business.BusinessEngine;
+import kodlamaio.hrms.core.utilities.activations.CodeGenerator;
 import kodlamaio.hrms.core.utilities.adapters.abstracts.CheckRealPersonService;
 import kodlamaio.hrms.core.utilities.adapters.models.MernisPerson;
 import kodlamaio.hrms.core.utilities.results.DataResult;
@@ -19,6 +21,7 @@ import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.CandidateDao;
 import kodlamaio.hrms.entities.concretes.Candidate;
+import kodlamaio.hrms.entities.dtos.ActivationCodeCandidateDto;
 
 @Service
 public class CandidateManager implements CandidateService {
@@ -27,15 +30,17 @@ public class CandidateManager implements CandidateService {
 	private UserService userService;
 	private CheckRealPersonService checkRealPersonService;
 	private CandidateValidatorService candidateValidatorService;
+	private ActivationCodeCandidateService activationCodeCandidateService;
 
 	@Autowired
 	public CandidateManager(CandidateDao candidateDao, UserService userService,
-			CheckRealPersonService checkRealPersonService, CandidateValidatorService candidateValidatorService) {
+			CheckRealPersonService checkRealPersonService, CandidateValidatorService candidateValidatorService,ActivationCodeCandidateService activationCodeCandidateService) {
 		super();
 		this.candidateDao = candidateDao;
 		this.userService = userService;
 		this.checkRealPersonService = checkRealPersonService;
 		this.candidateValidatorService = candidateValidatorService;
+		this.activationCodeCandidateService=activationCodeCandidateService;
 	}
 
 	@Override
@@ -53,6 +58,7 @@ public class CandidateManager implements CandidateService {
 			return result;
 		}
 		this.candidateDao.save(candidate);
+		this.activationCodeCandidateService.add(createActivationCode(candidate));
 		return new SuccessResult(Messages.candidateAdded);
 	}
 
@@ -93,6 +99,13 @@ public class CandidateManager implements CandidateService {
 			return new ErrorResult(Messages.emailExist);
 		}
 		return new SuccessResult();
+	}
+	
+	private ActivationCodeCandidateDto createActivationCode(Candidate candidate) {
+		ActivationCodeCandidateDto activationCodeCandidateDto=new ActivationCodeCandidateDto();
+		activationCodeCandidateDto.setUserId(candidate.getId());
+		activationCodeCandidateDto.setActivationCode(CodeGenerator.codeGenerator());
+		return activationCodeCandidateDto;
 	}
 
 }

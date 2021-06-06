@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kodlamaio.hrms.business.abstracts.ActivationCodeCandidateService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
+import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
 import kodlamaio.hrms.entities.concretes.ActivationCodeCandidate;
 import kodlamaio.hrms.entities.dtos.ActivationCodeCandidateDto;
 
@@ -44,10 +45,17 @@ public class ActivationCodeCandidatesController {
 		return this.activationCodeCandidateService.update(activationCodeCandidateDto);
 	}
 
+	@GetMapping("getByCandidateId")
+
+	DataResult<ActivationCodeCandidateDto> getById( @RequestParam int id){
+		return this.activationCodeCandidateService.getByCandidateId(id);
+	}
+	
 	@GetMapping("getById")
 
-	DataResult<ActivationCodeCandidate> getById( @RequestParam int id){
-		return this.activationCodeCandidateService.getById(id);
+	public DataResult<ActivationCodeCandidate> findById(int id) {
+		return this.activationCodeCandidateService.findById(id);
 	}
+
 
 }

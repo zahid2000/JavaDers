@@ -7,12 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,29 +21,24 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "activation_codes")
-
-@Inheritance(strategy = InheritanceType.JOINED)
-public class ActivationCode {
-	
+@Table(name = "employers_activation_by_employees")
+public class EmployerActivationByEmployee {
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonIgnore()
+	@Column(name="id")
 	private int id;
-
-	@JsonIgnore()
-	@Column(name = "activation_code")
-	private String activationCode;
-
-	@JsonIgnore()
-	@Column(name = "is_confirmed")
-	private boolean isConfirmed = false;
-
-	@JsonIgnore()
-	@Column(name = "confirm_date")
-	private LocalDate confirmDate = LocalDate.now();
 	
+	@OneToOne()
+	@JoinColumn(name="employee_id",referencedColumnName = "id")
+	private Employee employee;
 	
-
+	@OneToOne()
+	@JoinColumn(name="employer_id",referencedColumnName = "id")
+	private Employer employer;
+	
+	@Column(name="is_confirmed")
+	private boolean isConfirmed;
+	
+	@Column(name="confirm_date")
+	private LocalDate confirmDate=LocalDate.now();
 }
