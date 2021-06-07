@@ -64,6 +64,7 @@ public class AuthManager implements AuthService {
 					registerCandidateDto.getNationalIdentity(), registerCandidateDto.getBirthDate());
 			candidate.setEmail(registerCandidateDto.getEmail());
 			candidate.setPassword(registerCandidateDto.getPassword());
+			candidate.setBirthDate(registerCandidateDto.getBirthDate());
 			return this.candidateService.add(candidate);
 		}
 		return new ErrorResult(Messages.PasswordNotConfirmed);

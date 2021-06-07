@@ -1,7 +1,7 @@
 package kodlamaio.hrms.googleEmailService;
 
 public class GoogleEmailService {
-	public void sendEmail(String email) {
-		System.out.println("Email gonderildi");
+	public String sendEmail(String email,String message) {
+		return "Sent email to: "+email +". "+ message;
 	}
 }

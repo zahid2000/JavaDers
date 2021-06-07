@@ -1,5 +1,6 @@
 package kodlamaio.hrms.core.utilities.adapters.abstracts;
 
+
 public interface EmailService {
-	void sendEmail(String email);
+	String sendEmail(String email,String message);
 }

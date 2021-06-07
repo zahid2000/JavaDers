@@ -70,7 +70,7 @@ public class ActivationCodeCandidateManager implements ActivationCodeCandidateSe
 	@Override
 	public Result verify(String activationCode, int userId) {
 		ActivationCodeCandidate activationCodeCandidate = this.activationCodeCandidateDao.findByCandidate_Id(userId);
-		if (activationCodeCandidate.getActivationCode().equals(activationCodeCandidate)) {
+		if (activationCodeCandidate.getActivationCode().equals(activationCodeCandidate.getActivationCode())) {
 			activationCodeCandidate.setConfirmed(true);
 			this.activationCodeCandidateDao.save(activationCodeCandidate);
 			return new SuccessResult("Verified");

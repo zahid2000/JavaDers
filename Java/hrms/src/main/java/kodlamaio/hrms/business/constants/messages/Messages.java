@@ -2,18 +2,20 @@ package kodlamaio.hrms.business.constants.messages;
 
 public class Messages {
 
-	public static String usersListed = "İstifadəçilər listələndi";
 
+
+	//employer
 	public static String employersListed = "İşverənlər listələndi";
 	public static String employerAdded = "İşverən əlavə edildi";
 
-	public static String titleExists = "Bu iş pozisyonu artıq mövcuddur";
-
-	public static String titleAdded = "İş pozisyonu əlavə edildi";
+	//JobPosition
+	public static String positionExists = "Bu iş pozisyonu artıq mövcuddur";
+	public static String positionAdded = "İş pozisyonu əlavə edildi";
 
 
 
 	// user
+	public static String usersListed = "İstifadəçilər listələndi";
 	public static final String USER_LISTED = "Kullanıcılar listelendi.";
 	public static String userAdded = "Kullanıcı eklendi.";
 	public static String userDeleted = "Kullanıcı silindi.";
@@ -65,5 +67,9 @@ public class Messages {
 	
 	public static String loginSuccess = "Giriş uğurlu";
 	public static String loginFailed="Giriş uğursuz";
+	
+	//city
+	public static String citiesListed="Şehirler listelendi";
+	public static String cityAdded="Şehir eklendi";
 
 }

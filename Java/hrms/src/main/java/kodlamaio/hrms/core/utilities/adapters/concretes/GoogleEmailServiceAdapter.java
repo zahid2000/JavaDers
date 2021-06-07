@@ -12,8 +12,8 @@ public class GoogleEmailServiceAdapter implements EmailService {
 	
 	
 	@Override
-	public void sendEmail(String email) {
-		this.googleEmailService.sendEmail(email);
+	public String sendEmail(String email,String message) {
+		return this.googleEmailService.sendEmail(email,message);
 		
 	}
 

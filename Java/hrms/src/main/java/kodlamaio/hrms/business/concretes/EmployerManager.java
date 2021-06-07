@@ -12,6 +12,7 @@ import kodlamaio.hrms.business.constants.messages.Messages;
 import kodlamaio.hrms.business.validationRules.abstracts.EmployerValidatorService;
 import kodlamaio.hrms.core.business.BusinessEngine;
 import kodlamaio.hrms.core.utilities.activations.CodeGenerator;
+import kodlamaio.hrms.core.utilities.adapters.abstracts.EmailService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -31,14 +32,15 @@ public class EmployerManager implements EmployerService {
 	private ActivationCodeEmployerService activationCodeEmployerService;
 	private UserService userService;
 	private EmployerValidatorService employerValidatorService;
-
+	private EmailService emailService;
 	@Autowired
-	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,UserService userService,EmployerValidatorService employerValidatorService) {
+	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,EmailService emailService,UserService userService,EmployerValidatorService employerValidatorService) {
 		super();
 		this.employerDao = employerDao;
 		this.activationCodeEmployerService = activationCodeEmployerService;
 		this.userService=userService;
 		this.employerValidatorService=employerValidatorService;
+		 this.emailService=emailService;
 	}
 
 	@Override
@@ -55,7 +57,8 @@ public class EmployerManager implements EmployerService {
 		}
 		this.employerDao.save(employer);
 		this.activationCodeEmployerService.add(createActivationCode(employer));
-		return new SuccessResult(Messages.employerAdded);
+		String message=this.emailService.sendEmail(employer.getEmail(),createActivationCode(employer).getActivationCode());
+		return new SuccessResult(Messages.employerAdded+".Activation code: "+message);
 	}
 
 	@Override

@@ -11,41 +11,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import kodlamaio.hrms.business.abstracts.JobTitleService;
+import kodlamaio.hrms.business.abstracts.JobPositionService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.entities.concretes.JobTitle;
+import kodlamaio.hrms.entities.concretes.JobPosition;
 
 @RestController
 @RequestMapping("api/job-titles/")
-public class JobTitlesController {
+public class JobPositionController {
 
-	private JobTitleService jobTitleService;
+	private JobPositionService jobPositionService;
 
 	@Autowired
-	public JobTitlesController(JobTitleService jobTitleService) {
+	public JobPositionController(JobPositionService jobPositionService) {
 		super();
-		this.jobTitleService = jobTitleService;
+		this.jobPositionService = jobPositionService;
 	}
 
 	@GetMapping("getAll")
-	public DataResult<List<JobTitle>> getAll() {
-		return jobTitleService.getAll();
+	public DataResult<List<JobPosition>> getAll() {
+		return jobPositionService.getAll();
 	}
 
 	@PostMapping("add")
-	Result add( @RequestBody JobTitle jobTitle) {
-		return this.jobTitleService.add(jobTitle);
+	Result add( @RequestBody JobPosition jobPosition) {
+		return this.jobPositionService.add(jobPosition);
 	}
 
 	@GetMapping("getById")
-	DataResult<JobTitle> getById(@RequestParam int id) {
-		return this.jobTitleService.getById(id);
+	DataResult<JobPosition> getById(@RequestParam int id) {
+		return this.jobPositionService.getById(id);
 	}
 
 	@GetMapping("getByTitle")
-	DataResult<JobTitle> getByTitle(String title){
-		return this.jobTitleService.getByTitle(title);
+	DataResult<JobPosition> getByTitle(String position){
+		return this.jobPositionService.getByPosition(position);
 	}
 
 }

@@ -13,6 +13,7 @@ import kodlamaio.hrms.business.validationRules.abstracts.CandidateValidatorServi
 import kodlamaio.hrms.core.business.BusinessEngine;
 import kodlamaio.hrms.core.utilities.activations.CodeGenerator;
 import kodlamaio.hrms.core.utilities.adapters.abstracts.CheckRealPersonService;
+import kodlamaio.hrms.core.utilities.adapters.abstracts.EmailService;
 import kodlamaio.hrms.core.utilities.adapters.models.MernisPerson;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
@@ -31,16 +32,18 @@ public class CandidateManager implements CandidateService {
 	private CheckRealPersonService checkRealPersonService;
 	private CandidateValidatorService candidateValidatorService;
 	private ActivationCodeCandidateService activationCodeCandidateService;
+	private EmailService emailService;
 
 	@Autowired
 	public CandidateManager(CandidateDao candidateDao, UserService userService,
-			CheckRealPersonService checkRealPersonService, CandidateValidatorService candidateValidatorService,ActivationCodeCandidateService activationCodeCandidateService) {
+			CheckRealPersonService checkRealPersonService, EmailService emailService,CandidateValidatorService candidateValidatorService,ActivationCodeCandidateService activationCodeCandidateService) {
 		super();
 		this.candidateDao = candidateDao;
 		this.userService = userService;
 		this.checkRealPersonService = checkRealPersonService;
 		this.candidateValidatorService = candidateValidatorService;
 		this.activationCodeCandidateService=activationCodeCandidateService;
+		this.emailService=emailService;
 	}
 
 	@Override
@@ -59,7 +62,8 @@ public class CandidateManager implements CandidateService {
 		}
 		this.candidateDao.save(candidate);
 		this.activationCodeCandidateService.add(createActivationCode(candidate));
-		return new SuccessResult(Messages.candidateAdded);
+		String message=this.emailService.sendEmail(candidate.getEmail(),"Activation Code "+createActivationCode(candidate).getActivationCode());
+		return new SuccessResult(Messages.candidateAdded+" "+message);
 	}
 
 	@Override
