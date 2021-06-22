@@ -32,17 +32,17 @@ public class ActivationCodeEmployersController {
 	}
 
 	@GetMapping("getAll")
-	DataResult<List<ActivationCodeEmployer>> getAll(){
+	public DataResult<List<ActivationCodeEmployer>> getAll(){
 		return this.activationCodeEmployerService.getAll();
 	}
 	
 	@PostMapping("add")
-	Result add(@Valid @RequestBody ActivationCodeEmployerDto activationCodeEmployerDto) {
+	public Result add(@Valid @RequestBody ActivationCodeEmployerDto activationCodeEmployerDto) {
 		return this.activationCodeEmployerService.add(activationCodeEmployerDto);
 	}
 	
 	@GetMapping("getByEmployerId")
-	DataResult<ActivationCodeEmployer> getByEmployerId(@RequestParam int id){
+	public 	DataResult<ActivationCodeEmployer> getByEmployerId(@RequestParam int id){
 		return this.activationCodeEmployerService.getByEmployerId(id);
 	}
 }

@@ -33,14 +33,16 @@ public class EmployerManager implements EmployerService {
 	private UserService userService;
 	private EmployerValidatorService employerValidatorService;
 	private EmailService emailService;
+
 	@Autowired
-	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,EmailService emailService,UserService userService,EmployerValidatorService employerValidatorService) {
+	public EmployerManager(EmployerDao employerDao, ActivationCodeEmployerService activationCodeEmployerService,
+			EmailService emailService, UserService userService, EmployerValidatorService employerValidatorService) {
 		super();
 		this.employerDao = employerDao;
 		this.activationCodeEmployerService = activationCodeEmployerService;
-		this.userService=userService;
-		this.employerValidatorService=employerValidatorService;
-		 this.emailService=emailService;
+		this.userService = userService;
+		this.employerValidatorService = employerValidatorService;
+		this.emailService = emailService;
 	}
 
 	@Override
@@ -50,15 +52,16 @@ public class EmployerManager implements EmployerService {
 
 	@Override
 	public Result add(Employer employer) {
-		Result result=BusinessEngine.run(employerValidatorService.employerNullCheck(employer),
-                employerValidatorService.isEmailDomainCheck(employer),checkIfEmailExists(employer.getEmail()));
-		if(!result.isSuccess()) {
+		Result result = BusinessEngine.run(employerValidatorService.employerNullCheck(employer)/*,
+				employerValidatorService.isEmailDomainCheck(employer), checkIfEmailExists(employer.getEmail())*/);
+		if (!result.isSuccess()) {
 			return result;
 		}
 		this.employerDao.save(employer);
 		this.activationCodeEmployerService.add(createActivationCode(employer));
-		String message=this.emailService.sendEmail(employer.getEmail(),createActivationCode(employer).getActivationCode());
-		return new SuccessResult(Messages.employerAdded+".Activation code: "+message);
+		String message = this.emailService.sendEmail(employer.getEmail(),
+				createActivationCode(employer).getActivationCode());
+		return new SuccessResult(Messages.employerAdded + ".Activation code: " + message);
 	}
 
 	@Override
@@ -82,7 +85,7 @@ public class EmployerManager implements EmployerService {
 		activationCodeEmployerDto.setActivationCode(CodeGenerator.codeGenerator());
 		return activationCodeEmployerDto;
 	}
-	
+
 	private Result checkIfEmailExists(String email) {
 		if (this.userService.userExists(email)) {
 			return new ErrorResult(Messages.emailExist);

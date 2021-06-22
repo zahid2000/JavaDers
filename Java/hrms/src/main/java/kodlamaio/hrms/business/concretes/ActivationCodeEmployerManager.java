@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.ActivationCodeEmployerService;
+import kodlamaio.hrms.business.abstracts.EmployerActivationByEmployeeService;
+import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
@@ -14,17 +16,20 @@ import kodlamaio.hrms.core.utilities.results.SuccessResult;
 import kodlamaio.hrms.dataAccess.abstracts.ActivationCodeEmployerDao;
 import kodlamaio.hrms.entities.concretes.ActivationCodeEmployer;
 import kodlamaio.hrms.entities.concretes.Employer;
+import kodlamaio.hrms.entities.concretes.EmployerActivationByEmployee;
 import kodlamaio.hrms.entities.dtos.ActivationCodeEmployerDto;
 
 @Service
 public class ActivationCodeEmployerManager implements ActivationCodeEmployerService {
 
 	private ActivationCodeEmployerDao activationCodeEmployerDao;
+	
 
 	@Autowired
 	public ActivationCodeEmployerManager(ActivationCodeEmployerDao activationCodeEmployerDao) {
 		super();
 		this.activationCodeEmployerDao = activationCodeEmployerDao;
+		
 	}
 
 	@Override
@@ -40,7 +45,8 @@ public class ActivationCodeEmployerManager implements ActivationCodeEmployerServ
 		employer.setId(activationCodeEmployerDto.getUserId());
 		activationCodeEmployer.setEmployer(employer);
 		this.activationCodeEmployerDao.save(activationCodeEmployer);
-		return new  SuccessResult("Added");
+		
+		return new  SuccessResult("Verification completed");
 	}
 
 	@Override
@@ -66,4 +72,5 @@ public class ActivationCodeEmployerManager implements ActivationCodeEmployerServ
 	}
 		return new ErrorResult("could not be verified");
 	}
+
 }

@@ -45,6 +45,6 @@ public class Employer extends User implements Person {
 	private String phoneNumber;
 
 	@Column(name = "is_activated")
-	private boolean isActivated ;
+	private boolean isActivated =false;
 
 }

@@ -13,6 +13,7 @@ import kodlamaio.hrms.business.abstracts.EmployerService;
 import kodlamaio.hrms.business.abstracts.UserService;
 import kodlamaio.hrms.business.constants.messages.Messages;
 import kodlamaio.hrms.core.entity.concretes.User;
+import kodlamaio.hrms.core.utilities.dtoConverter.ObjectMapper;
 import kodlamaio.hrms.core.utilities.results.ErrorResult;
 import kodlamaio.hrms.core.utilities.results.Result;
 import kodlamaio.hrms.core.utilities.results.SuccessResult;
@@ -60,12 +61,12 @@ public class AuthManager implements AuthService {
 	@Override
 	public Result registerCandiate(RegisterCandidateDto registerCandidateDto) {
 		if (checkIfEqualPassword(registerCandidateDto.getPassword(), registerCandidateDto.getRePassword())) {
-			Candidate candidate = new Candidate(registerCandidateDto.getFirstName(), registerCandidateDto.getLastName(),
-					registerCandidateDto.getNationalIdentity(), registerCandidateDto.getBirthDate());
-			candidate.setEmail(registerCandidateDto.getEmail());
-			candidate.setPassword(registerCandidateDto.getPassword());
-			candidate.setBirthDate(registerCandidateDto.getBirthDate());
-			return this.candidateService.add(candidate);
+//			Candidate candidate = new Candidate(registerCandidateDto.getFirstName(), registerCandidateDto.getLastName(),
+//					registerCandidateDto.getNationalIdentity(), registerCandidateDto.getBirthDate());
+//			candidate.setEmail(registerCandidateDto.getEmail());
+//			candidate.setPassword(registerCandidateDto.getPassword());
+//			candidate.setBirthDate(registerCandidateDto.getBirthDate());
+			return this.candidateService.add(ObjectMapper.map(registerCandidateDto, Candidate.class));
 		}
 		return new ErrorResult(Messages.PasswordNotConfirmed);
 	}
@@ -75,11 +76,11 @@ public class AuthManager implements AuthService {
 	@Override
 	public Result registerEmployer(RegisterForEmployerDto registerForEmployerDto) {
 		if (checkIfEqualPassword(registerForEmployerDto.getPassword(), registerForEmployerDto.getRePassword())) {
-			Employer employer = new Employer(registerForEmployerDto.getCompanyName(),
-					registerForEmployerDto.getWebAddress(), registerForEmployerDto.getPhoneNumber(),false);
-			employer.setEmail(registerForEmployerDto.getEmail());
-			employer.setPassword(registerForEmployerDto.getPassword());
-			return employerService.add(employer);
+//			Employer employer = new Employer(registerForEmployerDto.getCompanyName(),
+//					registerForEmployerDto.getWebAddress(), registerForEmployerDto.getPhoneNumber(),false);
+//			employer.setEmail(registerForEmployerDto.getEmail());
+//			employer.setPassword(registerForEmployerDto.getPassword());
+			return employerService.add(ObjectMapper.map(registerForEmployerDto, Employer.class));
 			
 		}
 		return new ErrorResult(Messages.PasswordNotConfirmed);

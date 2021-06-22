@@ -13,15 +13,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPostingAddDto {
 
+	
 	@JsonIgnore
 	private int id;
 	private int employerId;
-	private int jobPositionId;
+
 	private int openPositionNumber;
 	private int minSalary;
 	private int maxSalary;
 	private int cityId;
-	private LocalDate createdDate;
+	private int jobPositionId;
 	private LocalDate closedDate;
 	private String description;
 	
